@@ -1,4 +1,3 @@
-
 var now = 0;
 $(".bt-prev").click(function(){
 	if(now > 0) {
