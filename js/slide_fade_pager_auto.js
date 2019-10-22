@@ -12,7 +12,6 @@ interval = setInterval(intervalCb, delay);
 function intervalCb(){
 	(now == 4) ? now = 0 : now++;
 	$(".pager").eq(now).trigger("click");
-	pagerInit();
 };
 
 $(".banners").mouseenter(function(){
