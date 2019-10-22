@@ -1,0 +1,72 @@
+
+.banners-tit {
+	text-align: center;
+}
+/* 화면 stage */
+.banners-wrap { 
+	width: 720px;
+	margin: 0 auto;
+	/* overflow: hidden; */
+	margin-bottom: 50px;
+	position: relative;
+	border: 1px solid black;
+}
+/* 움직일 놈 */
+.banners { 
+	display: flex;
+	position: relative;
+}
+.banner {
+	width: 720px;
+	position: relative;
+}
+.banner .banner-cont {
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: indianred;
+}
+
+.bt-prev, .bt-next {
+	font-size: 50px;
+	font-weight: bold;
+	position: absolute;
+	line-height: 70px;
+	text-align: center;
+	color: #111;
+	background-color: #fff;
+	border-radius: 50%;
+	border: 4px solid #111;
+	width: 80px;
+	height: 80px;
+	top: 50%;
+	transform: translateY(-50%);
+	opacity: 0.2;
+	transition: all 0.5s;
+	cursor: pointer;
+	z-index: 99999;
+}
+.bt-prev:hover, .bt-next:hover {
+	opacity: 0.7;
+} 
+.bt-prev {left: 50px;}
+.bt-next {right: 50px;}
+
+.pagers {
+	position: absolute;
+	width: 720px;
+	display: flex;
+	justify-content: center;
+	z-index: 9999;
+	bottom: 20px;
+}
+.pager {
+	padding: 8px;
+	cursor: pointer;
+}
+
+.pager.active {
+	color: indianred;
+}
