@@ -11,6 +11,7 @@ var AniEasy = (function(){
 AniEasy.prototype.animate = function(css, speed, cb){
 	this.css = css;
 	this.speed = speed;
+	this.interval;
 	this.cb = (typeof cb === 'undefined') ? false : (typeof cb === 'function') ? cb : false;
 	for(var key in this.css){
 		this.cssName = key;
@@ -19,11 +20,11 @@ AniEasy.prototype.animate = function(css, speed, cb){
 	var position = Number(this.cssValue.replace("px", ""));
 	var tar = Number(getComputedStyle(this.elem)[this.cssName].replace("px", ""));
 	// console.log(position, allCSS);
-	this.interval; 
-	interval = setInterval(ani, 20, this);
+	clearInterval(this.interval);
+	this.interval = setInterval(ani, 20, this)
 	function ani(obj) {
-		if(Math.ceil(tar) == position) {
-			clearInterval(this.interval);
+		if(Math.ceil(Math.abs(tar)) == Math.abs(position)) {
+			clearInterval(obj.interval);
 			obj.elem.style[obj.cssName] = position + "px";
 			if(obj.cb) obj.cb();
 		}
