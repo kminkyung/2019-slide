@@ -5,6 +5,8 @@ var speed = 500;
 var delay = 2000;
 var cnt = 0; // AJAX로 가져온 슬라이드 갯수 - 1 (Index)
 var ajax = new XMLHttpRequest();
+var html = ["", ""];
+
 
 // 시작
 ajax.onreadystatechange = slideInit; // CallBack Init
@@ -14,45 +16,53 @@ ajax.send();
 
 // 동작
 function slideInit() {
-	if(this.readyState == 4 && this.stauts == 200) {
-		/* 	
-		this.responseText; -> JS object 형식
-		JSON.parse(this.responseText); // JS object 형식
-		JSON.stringify(JSON.parse(this.responseText)); -> JS object -> String  
-		*/
+	if(this.readyState == 4 && this.status == 200) {
+			
+		// this.responseText; -> JS object 형식
+		// JSON.parse(this.responseText); // JS object 형식
+		// JSON.stringify(JSON.parse(this.responseText)); -> JS object -> String  
+		
 		var res = JSON.parse(this.responseText);
 		cnt = res.slides.length;
 		for(var i in res.slides) {
-			html = '<li class="banner">';
-			html += '<img src="'+res.slides[i].src+'" alt="'+res.slides[i].desc+'" class="banner-img">';
-			html += '<h2 class="banner-cont">"'+res.slides[i].desc+'"</h2>';
-			html += '</li>';
+			html[0] += '<li class="banner">';
+			html[0] += '<img src='+res.slides[i].src+' alt='+res.slides[i].desc+'" class="banner-img">';
+			html[0] += '<h2 class="banner-cont">'+res.slides[i].desc+'</h2>';
+			html[0] += '</li>';
 			$(".banners").append(html);
-			html = '<div class="pager">●</div>';
-			$(".pagers").append(html);
+			html[1] += '<div class="pager" data-idx="'+i+'">●</div>';
 		}
-		$(".banners").append($(".banner").eq(0).clone());
+		document.querySelector(".banners").innerHTML = html[0];
+		document.querySelector(".pagers").innerHTML = html[1];
+		document.querySelector(".banners").appendChild(document.querySelectorAll(".banner")[0].cloneNode(true));
+		// document.querySelector(".banners").innerHTML = child;
 		startInit();
 	}
 } 
 
 function startInit() {
-	$(".bt-prev").click(function(){
+	document.querySelector(".bt-prev").style.display = "none"
+	document.querySelector(".bt-prev").addEventListener("click", function(){
 		if(now > 0) now--;
 		init();
-	}).hide();
-	$(".bt-next").click(function(){
+	});
+	document.querySelector(".bt-next").addEventListener("click",function(){
 		if(now < 4) now++;
 		init();
 	});
-	$(".pager").click(function(){
-		now = $(this).index();
-		init();
+	
+	document.querySelectorAll(".pager").forEach(function(item, key){
+		item.addEventListener("click", function(e){
+			now = this.dataset["idx"];
+			init();
+		});
 	});
-	$(".banners-wrap").mouseover(function(){
+
+
+	document.querySelector(".banners-wrap").addEventListener("mouseover", function(){
 		clearInterval(interval);
 	});
-	$(".banners-wrap").mouseleave(function(){
+	document.querySelector(".banners-wrap").addEventListener("mouseleave", function(){
 		clearInterval(interval);
 		interval = setInterval(intervalCb, 2000);
 	});
