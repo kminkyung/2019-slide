@@ -7,7 +7,6 @@ var cnt = 0; // AJAX로 가져온 슬라이드 갯수 - 1 (Index)
 var ajax = new XMLHttpRequest();
 var html = ["", ""];
 
-
 // 시작
 ajax.onreadystatechange = slideInit; // CallBack Init
 ajax.open("GET", "../json/slide.json"); // true 비동기통신, false 동기통신
@@ -29,7 +28,6 @@ function slideInit() {
 			html[0] += '<img src='+res.slides[i].src+' alt='+res.slides[i].desc+'" class="banner-img">';
 			html[0] += '<h2 class="banner-cont">'+res.slides[i].desc+'</h2>';
 			html[0] += '</li>';
-			$(".banners").append(html);
 			html[1] += '<div class="pager" data-idx="'+i+'">●</div>';
 		}
 		document.querySelector(".banners").innerHTML = html[0];
@@ -86,14 +84,15 @@ function init() {
 }
 // 애니메이션
 function ani() {
-	$(".banners").stop().animate({"left": (-720*now)+"px"}, 500, function(){
+	var aniEasy = new AniEasy({elem: ".banners"});
+	aniEasy.animate({"left": (-720*now)+"px"}, 500, function(){
 		if(now == 5) {
 			now = 0;
-			$(".banners").css("left", 0);
+			document.querySelector(".banners").style.left = 0;
 			pagerInit();
 			btInit();
 		}
-	});
+	})
 }
 // 버튼 정렬
 function btInit() {
@@ -110,7 +109,9 @@ function btInit() {
 }
 // 페이저 정렬
 function pagerInit() {
-	$(".pager").removeClass("active");
-	$(".pager").eq(now).addClass("active");
+	document.querySelectorAll(".pager").forEach(function(item, key){
+		if(key == now) item.classList.add("active");
+		else item.classList.remove("active");
+	})
 }
 
