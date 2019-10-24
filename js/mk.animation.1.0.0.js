@@ -32,6 +32,7 @@ AniEasy.prototype.animate = function(css, cb){
 		}
 		else {
 			tar += (position - tar) * 0.15;
+			if(tar > Number(getComputedStyle(obj.elem)["width"].replace("px", ""))) tar = 0;
 			obj.elem.style[obj.cssName] = tar + "px";
 		}
 	}

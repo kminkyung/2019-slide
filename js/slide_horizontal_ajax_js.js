@@ -6,7 +6,7 @@ var delay = 2000;
 var cnt = 0; // AJAX로 가져온 슬라이드 갯수 - 1 (Index)
 var ajax = new XMLHttpRequest();
 var html = ["", ""];
-
+// var aniEasy = new AniEasy(".banners");
 
 
 // 시작
@@ -86,16 +86,22 @@ function init() {
 }
 // 애니메이션
 function ani() {
-	var aniEasy = new AniEasy(".banners");
-	aniEasy.animate({"left": (-720*now)+"px"}, function(){
-		if(now == 5) {
-			now = 0;
-			document.querySelector(".banners").style.left = 0;
-			pagerInit();
-			btInit();
+	anime({
+		targets: '.banner',
+		translateX: -720*now,
+		duration: speed,
+		easing: 'easeInOutExpo',
+		update: function(){
+			if(now == 5) {
+				now = 0;
+				document.querySelector(".banners").style.left = 0;
+				pagerInit();
+				btInit();
+			}
 		}
 	});
 }
+
 // 버튼 정렬
 function btInit() {
 	if(now == 0) {
