@@ -7,6 +7,8 @@ var cnt = 0; // AJAX로 가져온 슬라이드 갯수 - 1 (Index)
 var ajax = new XMLHttpRequest();
 var html = ["", ""];
 
+
+
 // 시작
 ajax.onreadystatechange = slideInit; // CallBack Init
 ajax.open("GET", "../json/slide.json"); // true 비동기통신, false 동기통신
@@ -84,15 +86,15 @@ function init() {
 }
 // 애니메이션
 function ani() {
-	var aniEasy = new AniEasy({elem: ".banners"});
-	aniEasy.animate({"left": (-720*now)+"px"}, 500, function(){
+	var aniEasy = new AniEasy(".banners");
+	aniEasy.animate({"left": (-720*now)+"px"}, function(){
 		if(now == 5) {
 			now = 0;
 			document.querySelector(".banners").style.left = 0;
 			pagerInit();
 			btInit();
 		}
-	})
+	});
 }
 // 버튼 정렬
 function btInit() {
@@ -115,3 +117,6 @@ function pagerInit() {
 	})
 }
 
+// getComputedStyle(dom);
+var bannersCss = getComputedStyle(document.querySelector(".banners"));
+console.log(bannersCss["left"]);
